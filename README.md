@@ -1,5 +1,5 @@
-## Integração Python e Mysql
-### Criando desde o database até inserindo as informações.
+## **Integração Python e Mysql**
+### **Criando desde o database até inserindo as informações.**
 <br>
 
 - [x] Criar o database;
@@ -10,3 +10,18 @@
 - [ ] Deletar Tabela;
 - [ ] Deletar database;
 - [ ] Atualizar dados;
+
+### **Instalação de pacote:**
+<br>
+
+```
+pip install mysql-connector-python
+```
+
+### **Imports necessários:**
+<br>
+
+```
+import mysql.connector
+import pandas as pd
+```
