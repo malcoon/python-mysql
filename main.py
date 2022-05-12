@@ -87,6 +87,16 @@ def add_contact():
     conex_sql.commit()
     print(f'O funcionário {name} foi adicionado!')
 
+def del_contact():
+    print('Deletar contato')
+    db_name = str(input('Nome do database: '))
+    table_name = str(input('Nome da tabela: '))
+
+    del_contact = f''
+
+def del_all_contact():
+    print('Deletar contato')
+
 option = 0
 
 while option != 6:
