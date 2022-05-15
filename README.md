@@ -5,8 +5,8 @@
 - [x] Criar a tabela;
 - [x] Listar tabela;
 - [x] Inserir dados;
-- [ ] Deletar dados;
-- [ ] Deletar Tabela;
+- [x] Deletar dados;
+- [x] Deletar Tabela;
 - [ ] Deletar database;
 - [ ] Atualizar dados;
 
