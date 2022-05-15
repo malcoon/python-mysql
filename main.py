@@ -1,55 +1,57 @@
 import mysql.connector
 import pandas as pd
+import os
 
 conex_sql = mysql.connector.connect(
     host='localhost',
     user='root',
-    password='1234567890'
+    password='147258369'
 )
 
 if conex_sql.is_connected():
     conex_sql_info = conex_sql.get_server_info()
     cursor = conex_sql.cursor()
-    print('Você está conectado!')
 
 # Menu Principal
 def menu():
     print ('''
-    ECOLHA UMA OPÇÃO:
-
+    ECOLHA UMA OPÇÃO: \n
     1 → Criar um database
     2 → Criar tabela
     3 → Listar tabela
-    4 → Adicionar funcionario
+    4 → Adicionar nome
+    5 → Deletar nome
+    6 → Deletar tabela
     0 → Finalizar\n''')
 
 # Criar um database
 def create_database():
-
+    os.system('cls')
     nome_db = str(input('Nome do Database: '))
 
-    create_database = f'CREATE SCHEMA {nome_db}'
+    create_database = f'CREATE SCHEMA {nome_db}; USE {nome_db};'
     cursor.execute(create_database)
     conex_sql.commit()
     print(f'Database criado: {nome_db}')
 
-def create_table():
 
+def create_table():
+    os.system('cls')
     nome_db = str(input('Informe o nome do Database: '))
     nome_table = str(input('Nome da tabela: '))
-    nome_func = str(input('Coluna para nome: '))
-    cargo_func = str(input('Coluna para cargo: '))
-    email_func = str(input('Coluna para email: '))
-    tel_func = str(input('Coluna para telefone: '))
-    sal_func = str(input('Coluna para salario: '))
+    nome = str(input('Coluna para nome: '))
+    sexo = str(input('Coluna para sexo: '))
+    email = str(input('Coluna para email: '))
+    idade = str(input('Coluna para idade: '))
+    telefone = str(input('Coluna para telefone: '))
 
     create_new_table = f'''CREATE TABLE {nome_db}.{nome_table} (
-        id_func INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
-        {nome_func} VARCHAR(45) NULL, 
-        {cargo_func} VARCHAR(45) NULL, 
-        {email_func} VARCHAR(45) NULL, 
-        {tel_func} INT NULL, 
-        {sal_func} INT NULL);'''
+        id_{nome_table} INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+        {nome} VARCHAR(45) NULL, 
+        {sexo} VARCHAR(45) NULL, 
+        {email} VARCHAR(45) NULL, 
+        {idade} INT NULL, 
+        {telefone} INT NULL);'''
     cursor.execute(create_new_table)
     conex_sql.commit()
     print(f'Tabela {nome_table} foi criada!')
@@ -57,7 +59,7 @@ def create_table():
 
 # Listar tabela 
 def search_table():
-
+    os.system('cls')
     search_db_name = str(input('Nome do database: '))
     search_table_name = str(input('Nome da tabela: '))
 
@@ -69,34 +71,59 @@ def search_table():
 
 # Novo contato
 def add_contact():
-
+    os.system('cls')
     db_name = str(input('Nome do database: '))
     table_name = str(input('Nome da tabela: '))
 
-    name = str(input('Digite o nome do funcionario: '))
-    cargo = str(input('Digite o cargo do funcionario: '))
-    email = str(input('Digite o email do funcionario: '))
-    phone = int(input('Digite o telefone do funcionario: '))
-    salario = int(input('Digite o salario do funcionario: '))
+    name = str(input('Digite o nome: '))
+    sexo = str(input('Digite o sexo: '))
+    email = str(input('Digite o email: '))
+    idade = int(input('Digite o idade: '))
+    telefone = int(input('Digite o telefone: '))
 
     add_people = f'''INSERT INTO {db_name}.{table_name} (
-        nome_fun, cargo_fun, email_fun, tel_fun, sal_fun) 
+        nome, sexo, email, idade, telefone) 
         VALUES (
-        "{name}", "{cargo}", "{email}", {phone}, {salario});'''
+        "{name}", "{sexo}", "{email}", {idade}, {telefone});'''
     cursor.execute(add_people)
     conex_sql.commit()
-    print(f'O funcionário {name} foi adicionado!')
+    print(f'{name} foi adicionado!')
 
-def del_contact():
-    print('Deletar contato')
+def del_name():
+    os.system('cls')
     db_name = str(input('Nome do database: '))
     table_name = str(input('Nome da tabela: '))
+    nome_delete = str(input('Digite o nome: '))
 
-    del_contact = f''
+    del_name = f'DELETE FROM {db_name}.{table_name} WHERE nome LIKE "%{nome_delete}%";'
+    cursor.execute(del_name)
+    conex_sql.commit()
+    print(f'{nome_delete} foi deletado do banco de dados.')
 
-def del_all_contact():
-    print('Deletar contato')
-
+def del_table():
+    os.system('cls')
+    print('''
+Tem certeza que deseja deletar todos os dados?
+    1 - Sim
+    2 - Não \n''')
+    del_option = int(input('Digite uma opção: '))
+    
+    if del_option == 1:
+        name_db_del = str(input('Informe qual o Database: '))
+        name_table_del = str(input('Informe qual tabela: '))
+        
+        del_table = f'DROP TABLE {name_db_del}.{name_table_del};'
+        cursor.execute(del_table)
+        conex_sql.commit()
+        print(f'A tabela {name_table_del} em {name_db_del} foi deletada')
+    elif del_option == 2:
+        print('Nada foi deletado')
+    else: 
+        print('Por favor, digite uma opção válida.')
+    
+#
+# Menu 
+#
 option = 0
 
 while option != 6:
@@ -110,6 +137,10 @@ while option != 6:
         search_table()
     elif option == 4:
         add_contact()
+    elif option == 5:
+        del_name()
+    elif option == 6:
+        del_table()
     else:
         print('Finalizando...')
     break
